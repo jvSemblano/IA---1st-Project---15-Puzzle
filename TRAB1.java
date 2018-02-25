@@ -84,6 +84,7 @@ public class TRAB1{
 		}
 	}
 
+
     /*static void IDFS(){
 	
     }
@@ -96,7 +97,7 @@ public class TRAB1{
 
     }*/
 
-    static String generalSearchAlgorithm(String funcao, Node jogoinicial, int[][] jogofinal){
+   static String generalSearchAlgorithm(String funcao, Node jogoinicial, int[][] jogofinal){
     	String moves = "";
     	queue.add(jogoinicial);
     	while(!queue.isEmpty()){
@@ -109,8 +110,6 @@ public class TRAB1{
     		return "solution not found";
     	}
     }
-
-    static void 
 
     static void moveUp(Node game){
 		if(game.getY != 0){
@@ -158,9 +157,95 @@ public class TRAB1{
 	}
 
 
+    static void menu () {
+        System.out.println("Bem-vindo ao Jogo dos 15!");
+        System.out.println();
+        System.out.println("IDFS            -> 1");
+        System.out.println("Greendy         -> 2");
+        System.out.println("A_STAR          -> 3");
+    
+    Scanner stdin = new Scanner(System.in);
+    int opcao = stdin.nextInt();
+
+    if(opcao==1) {
+        if(ler_jogo()==true) {
+            //generalSearchAlgorithm();
+        }
+        else
+            System.out.println("O puzzle e impossivel de resolver!...");
+
+    }
+    if(opcao==2) {
+        if(ler_jogo()==true) {
+            //generalSearchAlgorithm();
+        }
+        else
+            System.out.println("O puzzle e impossivel de resolver!...");
+    }
+    if(opcao==3) {
+        if(ler_jogo()==true) {
+            //generalSearchAlgorithm();
+        }
+        else
+            System.out.println("O puzzle e impossivel de resolver!...");
+    }
+
+    }
+
+    static boolean ler_jogo () {
+        Scanner input = new Scanner(System.in);
+
+        int[] arrayToCheck = new int[16];
+        int[][] configinicial = new int[4][4];
+        System.out.println("Intruduza o tabuleiro incial:");
+        for(int i = 0; i < arrayToCheck.length; i++){
+            arrayToCheck[i] = input.nextInt();
+        }
+        pos_zero(arrayToCheck);
+        int [] [] configfinal = new int [4][4];
+        System.out.println("Introduza o tabuleiro final:");
+        for(int i=0; i<4; i++) {
+            for(int j=0; j<4; j++) {
+                configfinal[i][j]= input.nextInt();
+            }
+        }
+        if(pos_zero(arrayToCheck)==true) 
+            return true;
+        else
+            return false;
+
+    }
+
+
+    //guarda a posicao do zero
+    static boolean pos_zero (int [] arrayToCheck) {
+        int[][] configinicial = new int[4][4];
+        if(checkIfPossible(arrayToCheck)){
+            int positionY;
+            int positionX;
+            int i = 0;
+            for(int j = 0; j < 4; j++){
+                for(int z = 0; z < 4; z++){
+                    configinicial[j][z] = arrayToCheck[i];
+                    if(configinicial[j][z] == 0){
+                        positionY = j;
+                        positionX = z;
+                    }
+                    i++;
+                }
+            }
+            nodes.add(new Node(configinicial, 0, NULL, 1, NULL, positionX, positionY));
+            return true;              
+        }
+        else 
+            return false;
+
+    }
+
     
     public static void main(String[] args){
-    	Scanner input = new Scanner(System.in);
+        menu();
+    	/*Scanner input = new Scanner(System.in);
 
     	int[] arrayToCheck = new int[16];
     	int[][] configinicial = new int[4][4];
@@ -192,7 +277,7 @@ public class TRAB1{
 
     	else{
     		System.out.println("O puzzle e impossivel de resolver!..."); 
-    	}
+    	}*/
     	
     	return;
     
