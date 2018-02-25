@@ -42,14 +42,7 @@ class Node{
 
 public class TRAB1{
 
-
-	static int[][] complete = {{1,2,3,4}, 
-							   {5,6,7,8}, 
-							   {9, 10, 11, 12}, 
-							   {13, 14, 15, 0}};
 	static LinkedList<Node> queue = new LinkedList<Node>();
-
-
 
 	static boolean checkIfPossible(int[] array){
 		int inversions = 0;
@@ -123,7 +116,7 @@ public class TRAB1{
 	}
 
 
-	static void moveDown(int[][] temp){
+	static void moveDown(Node game){
 		if(game.getY != 3) {
 			int[][] temp = game.getTable();
 			int positionY = game.getY();
@@ -134,7 +127,7 @@ public class TRAB1{
 		}	
 	}
 
-	static void moveLeft(int[][] temp){
+	static void moveLeft(Node game){
 		if(game.getX != 0) {
 			int[][] temp = game.getTable();
 			int positionY = game.getY();
@@ -145,7 +138,7 @@ public class TRAB1{
 		}	
 	}
 
-	static void moveRight(int[][] temp){
+	static void moveRight(Node game){
 		if(game.getX != 3) {
 			int[][] temp = game.getTable();
 			int positionY = game.getY();
@@ -156,108 +149,9 @@ public class TRAB1{
 		}
 	}
 
-
-    static void menu () {
-        System.out.println("Bem-vindo ao Jogo dos 15!");
-        System.out.println();
-        System.out.println("IDFS            -> 1");
-        System.out.println("Greendy         -> 2");
-        System.out.println("A_STAR          -> 3");
-    
-    Scanner stdin = new Scanner(System.in);
-    int opcao = stdin.nextInt();
-
-    if(opcao==1) {
-        if(ler_jogo()==true) {
-            //generalSearchAlgorithm();
-        }
-        else
-            System.out.println("O puzzle e impossivel de resolver!...");
-
-    }
-    if(opcao==2) {
-        if(ler_jogo()==true) {
-            //generalSearchAlgorithm();
-        }
-        else
-            System.out.println("O puzzle e impossivel de resolver!...");
-    }
-    if(opcao==3) {
-        if(ler_jogo()==true) {
-            //generalSearchAlgorithm();
-        }
-        else
-            System.out.println("O puzzle e impossivel de resolver!...");
-    }
-
-    }
-
-    static boolean ler_jogo () {
-        Scanner input = new Scanner(System.in);
-
-        int[] arrayToCheck = new int[16];
-        int[][] configinicial = new int[4][4];
-        System.out.println("Intruduza o tabuleiro incial:");
-        for(int i = 0; i < arrayToCheck.length; i++){
-            arrayToCheck[i] = input.nextInt();
-        }
-        pos_zero(arrayToCheck);
-        int [] [] configfinal = new int [4][4];
-        System.out.println("Introduza o tabuleiro final:");
-        for(int i=0; i<4; i++) {
-            for(int j=0; j<4; j++) {
-                configfinal[i][j]= input.nextInt();
-            }
-        }
-        if(pos_zero(arrayToCheck)==true) 
-            return true;
-        else
-            return false;
-
-    }
-
-
-    //guarda a posicao do zero
-    static boolean pos_zero (int [] arrayToCheck) {
-        int[][] configinicial = new int[4][4];
-        if(checkIfPossible(arrayToCheck)){
-            int positionY;
-            int positionX;
-            int i = 0;
-            for(int j = 0; j < 4; j++){
-                for(int z = 0; z < 4; z++){
-                    configinicial[j][z] = arrayToCheck[i];
-                    if(configinicial[j][z] == 0){
-                        positionY = j;
-                        positionX = z;
-                    }
-                    i++;
-                }
-            }
-            nodes.add(new Node(configinicial, 0, NULL, 1, NULL, positionX, positionY));
-            return true;              
-        }
-        else 
-            return false;
-
-    }
-
-    
-    public static void main(String[] args){
-        menu();
-    	/*Scanner input = new Scanner(System.in);
-
-    	int[] arrayToCheck = new int[16];
-    	int[][] configinicial = new int[4][4];
-    	
-    	
-    
-    	for(int i = 0; i < arrayToCheck.length; i++){
-    		arrayToCheck[i] = input.nextInt();
-    	}
-
-    	if(checkIfPossible(arrayToCheck)){
-    		int positionY;
+	
+    	static void arrayToMatrix(int[] array, int[] configinicial){
+		int positionY;
     		int positionX;
     		int i = 0;
     		for(int j = 0; j < 4; j++){
@@ -271,13 +165,57 @@ public class TRAB1{
     			}
     		}
 
-    		nodes.add(new Node(configinicial, 0, NULL, 1, NULL, positionX, positionY))
-   			 		
-       	}	
+    		nodes.add(new Node(configinicial, 0, NULL, 1, NULL, positionX, positionY));
+	}
+    
+	static void menu(){
+		System.out.println("Qual algoritmo quer usar?");
+		System.out.println("IDFS   -> 1");
+		System.out.println("Greddy -> 2");
+		System.out.println("A_STAR -> 3");
+		Scanner input = new Scanner(System.in);
+		int opcao = input.nextInt();
+		switch(opcao){
+			case 1: generalSearchAlgorithm("IDFS", nodes.get(0); jogofinal);
+				break;
+				
+			case 2: generalSearchAlgorithm("Greedy", nodes.get(0); jogofinal);
+				break;
+				
+			case 3: generalSearchAlgorithm("A_STAR", nodes.get(0); jogofinal);
+				break;
+				
+			default: System.out.println("Escolha uma das opcoes do menu!);
+				 break;		    
+				
+		}
+	}
 
-    	else{
+    
+    public static void main(String[] args){
+       	System.out.println("Bem-vindo ao Jogo dos 15!");
+	System.out.println("Introduza a configuração inicial do tabuleiro:");
+    	Scanner input = new Scanner(System.in);
+    	int[] arrayToCheck = new int[16];
+    	int[][] configinicial = new int[4][4];
+    	
+    	for(int i = 0; i < arrayToCheck.length; i++){
+    		arrayToCheck[i] = input.nextInt();
+    	}
+
+    	while(!checkIfPossible(arrayToCheck)){
     		System.out.println("O puzzle e impossivel de resolver!..."); 
-    	}*/
+		System.out.println("Insira novamente uma configuracao inicial:");
+		for(int i = 0; i < arrayToCheck.length; i++){
+    			arrayToCheck[i] = input.nextInt();
+    		}
+	}
+		
+	arrayToMatrix(arrayToCheck, configinicial);
+	    
+	System.out.println("Insira agora a configuração final:");
+	//para que serve o algoritmo da dutra se dermos config final?? como testamos se de determinado ponto chegamos aqui?
+	menu();
     	
     	return;
     
