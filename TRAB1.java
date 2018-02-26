@@ -185,7 +185,7 @@ public class TRAB1{
 			case 3: generalSearchAlgorithm("A_STAR", nodes.get(0); jogofinal);
 				break;
 				
-			default: System.out.println("Escolha uma das opcoes do menu!);
+			default: System.out.println("Escolha uma das opcoes do menu");
 				 break;		    
 				
 		}
