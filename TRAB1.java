@@ -90,9 +90,56 @@ public class TRAB1{
 	}
 
 
-    /*static void IDFS(){
-	
+    static void IDFS(Node jogoinicial, Node jogofinal){
+		HashMap<String, Node> visitados = new HashMap<>();
+    	LinkedList<Node> filhotes = new LinkedList<Node>();
+    	LinkedList<Node> queue = new LinkedList<Node>();
+    	int limite = 1;
+    	queue.add(jogoinicial);
+    	
+    	while(!queue.isEmpty()){
+
+    		Node temporary = queue.remove();
+    		System.out.println(Arrays.deepToString(temporary.getTable()) + " " + temporary.profundidade);
+    		
+    		if(compareMatrix(temporary.getTable(), jogofinal.getTable())){
+    			moves = "Profundidade = " + temporary.profundidade + "\n";
+    			while(temporary.profundidade != 0){
+    				moves += temporary.getJogada() + " ";
+    				temporary = temporary.pai;
+    			}
+    			System.out.println(moves);
+    			return;
+    		}	
+
+
+    		if(temporary.profundidade + 1 >= limite && queue.isEmpty()){
+    				queue = new LinkedList<Node>();
+    				System.out.println("queue empty = " + queue.isEmpty());
+    				queue.add(jogoinicial);
+    				visitados = new HashMap<String, Node>();
+    				limite++;
+    					System.out.println("limite = " + limite);
+    				
+    			}
+
+    		else if(temporary.profundidade + 1 < limite){
+    			filhotes = makeDescendants(temporary);
+    			for(int i = 0; i < filhotes.size(); i++){
+    				if(!visitados.containsKey(Arrays.deepToString(filhotes.get(i).getTable()))){
+    					visitados.put(Arrays.deepToString(filhotes.get(i).getTable()), filhotes.get(i));
+    					queue.add(filhotes.get(i));
+    				}
+    			}
+    		}
+
+
+    	}
+
+    	System.out.println("solution not found");
+    	return;
     }
+    /*
     static void GULOSA(){
     }
     static void A(){
@@ -108,9 +155,12 @@ public class TRAB1{
     	while(!queue.isEmpty()){
     		Node temporary = queue.remove();
     		System.out.println(Arrays.deepToString(temporary.getTable()) + " " + temporary.profundidade);
-    		moves += temporary.getJogada() + " ";
     		if(compareMatrix(temporary.getTable(), jogofinal.getTable())){
-    			moves += "\n" + "Profundidade = " + temporary.profundidade;
+    			moves = "Profundidade = " + temporary.profundidade + "\n";
+    			while(temporary.profundidade != 0){
+    				moves += temporary.getJogada() + " ";
+    				temporary = temporary.pai;
+    			}
     			System.out.println(moves);
     			return;
     		}	
@@ -140,9 +190,13 @@ public class TRAB1{
     	while(!queue.isEmpty()){
     		Node temporary = queue.remove();
     		System.out.println(Arrays.deepToString(temporary.getTable()) + " " + temporary.profundidade);
-    		moves += temporary.getJogada() + " ";
+    		
     		if(compareMatrix(temporary.getTable(), jogofinal.getTable())){
-    			moves += "\n" + "Profundidade = " + temporary.profundidade;
+    			moves = "Profundidade = " + temporary.profundidade + "\n";
+    			while(temporary.profundidade != 0){
+    				moves += temporary.getJogada() + " ";
+    				temporary = temporary.pai;
+    			}
     			System.out.println(moves);
     			return;
     		}	
@@ -293,10 +347,10 @@ public class TRAB1{
     	Scanner input = new Scanner(System.in);
     	int opcao = input.nextInt();
     	switch(opcao){
-	    /*case 1: IDFS(jogoinicial, jogofinal);
+	    case 1: IDFS(jogoinicial, jogofinal);
 	        break;
 				
-			case 2: SERANATADEAMOR(jogoinicial, jogofinal);
+			/*case 2: SERANATADEAMOR(jogoinicial, jogofinal);
 	        break;
 				
 	case 3: A_STAR(jogoinicial, jogofinal);
@@ -314,45 +368,44 @@ public class TRAB1{
 	}
 
 
-public static void main(String[] args){
-	System.out.println("Bem-vindo ao Jogo dos 15!");
-	System.out.println("Introduza a configuracao inicial do tabuleiro:");
-	Scanner input = new Scanner(System.in);
-	int[] arrayInicial = new int[16];
-	int[] arrayFinal = new int[16];
-	int[][] configinicial = new int[4][4];
-	int[][] configfinal = new int[4][4];
+	public static void main(String[] args){
+		System.out.println("Bem-vindo ao Jogo dos 15!");
+		System.out.println("Introduza a configuracao inicial do tabuleiro:");
+		Scanner input = new Scanner(System.in);
+		int[] arrayInicial = new int[16];
+		int[] arrayFinal = new int[16];
+		int[][] configinicial = new int[4][4];
+		int[][] configfinal = new int[4][4];
 
-	for(int i = 0; i < arrayInicial.length; i++){
-		arrayInicial[i] = input.nextInt();
+		for(int i = 0; i < arrayInicial.length; i++){
+			arrayInicial[i] = input.nextInt();
+		}
+
+		boolean condI = checkIfPossible(arrayInicial);
+
+		System.out.println("Insira agora a configuracao final:");
+		for(int i = 0; i < arrayFinal.length; i++){
+			arrayFinal[i] = input.nextInt();
+		}
+		
+		boolean condF = checkIfPossible(arrayFinal);
+		
+		if(condI == condF){
+			arrayToMatrix(arrayInicial, configinicial);
+
+			Node inicial = new Node(configinicial, positionX, positionY); 
+			arrayToMatrix(arrayFinal, configfinal);
+			Node fim = new Node(configfinal, positionX, positionY); 
+
+			menu(inicial, fim);
+		}
+
+		else{
+			System.out.println("Impossible");
+		}
+
+		return;
+
 	}
-
-	boolean condI = checkIfPossible(arrayInicial);
-
-	
-
-	System.out.println("Insira agora a configuracao final:");
-	for(int i = 0; i < arrayFinal.length; i++){
-		arrayFinal[i] = input.nextInt();
-	}
-	
-	boolean condF = checkIfPossible(arrayFinal);
-	
-	if(condI == condF){
-		arrayToMatrix(arrayInicial, configinicial);
-
-		Node inicial = new Node(configinicial, positionX, positionY); 
-		arrayToMatrix(arrayFinal, configfinal);
-		Node fim = new Node(configfinal, positionX, positionY); 
-
-		menu(inicial, fim);
-	}
-
-	else{
-		System.out.println("Impossible");
-	}
-
-	return;
-
 }
-}
+
